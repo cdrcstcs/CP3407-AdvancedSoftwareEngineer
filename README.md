@@ -93,3 +93,159 @@ Based on the feedback from the user interviews, we will incorporate the followin
 
 These features will help create an app that meets user expectations and enhances the overall user experience.
 
+# User Feedback Summary
+
+## Based on the interviews conducted, we gathered insights from two primary user groups: customers and restaurant owners. Below is a summary of their expectations and requirements.
+
+## 1. Customer Feedback
+
+### Key Features Expected:
+- A simple and intuitive interface with easy navigation.
+- A well-organized menu with food categories and filters.
+- Secure multiple payment options (credit/debit cards, digital wallets, QR codes, cash on delivery).
+- Real-time order tracking from preparation to delivery.
+- Customer reviews and ratings for food and restaurants.
+- Loyalty rewards and promotional discounts to encourage repeat orders.
+
+### Importance of Customization:
+High importance; users want options to:
+- Modify ingredients (e.g., remove onions, add extra cheese).
+- Choose portion sizes.
+- Select dietary preferences (vegetarian, halal, gluten-free, keto, etc.).
+
+### Preferred Payment Methods:
+- Credit/Debit Cards (Visa, Mastercard).
+- Digital Wallets (PayPal, Apple Pay, Google Pay).
+- Cash on Delivery.
+- QR Code Payments for faster transactions.
+
+### Real-Time Order Tracking:
+- Considered a must-have feature by most customers.
+- Users want live tracking and push notifications at different order stages (accepted, prepared, out for delivery).
+
+### Useful Filters for Browsing Menus:
+- Cuisine type (Italian, Chinese, Indian, etc.).
+- Dietary preferences (vegetarian, halal, keto, etc.).
+- Price range to match their budget.
+- Customer ratings to find the best restaurants.
+- Estimated delivery time for faster service.
+
+### Preferred Order Status Updates:
+- Push notifications for real-time alerts.
+- SMS updates for users who may not have the app open.
+- Email confirmations for receipts and records.
+- In-app tracking for detailed order status updates.
+
+## 2. Restaurant Owner Feedback
+
+### Key Features Expected:
+- Easy menu management (add, edit, remove items with pricing and availability).
+- Order management system to track incoming orders in real-time.
+- Analytics and reporting to track sales, popular items, and customer preferences.
+- Promotion and discount management to attract customers.
+- Integration with delivery services for smooth fulfillment.
+
+### Importance of Order Management:
+- Critical for efficiency—restaurants need an intuitive dashboard to update order statuses quickly.
+- Ability to mark preparing, ready, completed, or canceled for real-time customer updates.
+
+### Preferred Payment Handling:
+- Ability to receive direct payments through the platform (commission-based or subscription model).
+- Option to set cash-only, card-only, or both payment methods for their restaurant.
+
+### Business Growth Features:
+- Insights on customer preferences to optimize menu offerings.
+- Sales reports and trends to improve decision-making.
+- Loyalty programs to retain repeat customers.
+
+---
+
+# Activity Two: Requirements Document and User Story Estimations
+
+## User Story 1: Browsing and Ordering Food
+**As a customer,**
+_I want to browse a well-organized food menu, filter the food items by different criteria, and add my selected items to the cart,_
+_So that I can easily find my desired food, customize my order, and proceed to checkout efficiently._
+
+### Acceptance Criteria:
+#### Menu Browsing:
+- The app should display a list of food categories (e.g., starters, main course, desserts, etc.).
+- Users should be able to browse food items within each category and view detailed information about each item (e.g., ingredients, portion size, price).
+
+#### Filters:
+Users can apply filters to search the menu by:
+- Cuisine type (e.g., Italian, Chinese, Indian).
+- Dietary preferences (e.g., vegetarian, gluten-free, halal).
+- Price range (e.g., $10–$20).
+- Location (city or restaurant location).
+- Multiple filters can be applied at the same time.
+
+#### Customizing Orders:
+After selecting an item, the app should allow users to customize the order:
+- Modify ingredients (e.g., remove onions, add extra cheese).
+- Choose portion size (e.g., small, medium, large).
+- Select dietary preferences (e.g., gluten-free, vegan).
+
+#### Adding to Cart:
+- Users can add multiple food items to the cart.
+- Users can view the cart contents, modify quantities, or remove items from the cart before proceeding to checkout.
+
+#### Checkout:
+- Once satisfied, users can proceed to checkout, entering their delivery address and payment details.
+- The app should offer multiple payment options, such as credit card, digital wallets (PayPal, Apple Pay, etc.), and cash on delivery.
+
+## User Story 2: Real-Time Order Tracking for Customers
+**As a customer,**
+_I want to receive real-time order status updates via notifications,_
+_So that I can track my order from preparation to delivery and be informed of any changes or delays._
+
+### Acceptance Criteria:
+#### Order Tracking:
+- Once an order is placed, the customer should receive an initial notification confirming the order and estimated delivery time.
+- Real-time updates should be sent when the order moves through various stages:
+  - Order received.
+  - Order is being prepared.
+  - Order is ready for delivery.
+  - Order is out for delivery.
+  - Order successfully delivered.
+
+#### Notifications:
+- Push notifications should be sent to the customer at each stage, ensuring they are kept informed without opening the app.
+- If the app is closed, SMS or email notifications should be sent.
+
+#### Order Details:
+- The customer can view detailed order status within the app, showing progress in real-time (e.g., "Preparing," "Out for delivery," etc.).
+- Estimated delivery time should be updated as the order moves through each stage.
+
+#### Order Modifications:
+- If there are any delays or issues with the order, the app should send notifications with an updated estimated delivery time.
+- The customer can request to modify or cancel the order if the restaurant permits it (e.g., via the app).
+
+## User Story 3: Restaurant Order Management
+**As a restaurant owner,**
+_I want to manage incoming orders, update their status, and track order progress in real-time,_
+_So that I can ensure smooth order fulfillment and keep customers informed of their order status._
+
+### Acceptance Criteria:
+#### Order Dashboard:
+- Restaurant owners should have access to an intuitive dashboard where they can view all incoming orders.
+- Each order should display essential details such as customer name, food items, order status, and delivery time.
+
+#### Order Status Updates:
+- Restaurant owners should be able to update the status of each order manually or automatically:
+  - Order received.
+  - Order being prepared.
+  - Order ready for delivery.
+  - Order completed.
+- The app should allow owners to mark orders as canceled or completed if necessary.
+
+#### Notifications for Order Status:
+- Once an order status is updated, the customer should receive a notification reflecting the change (e.g., "Your order is being prepared").
+
+#### Order Modification:
+- If an order needs to be modified (e.g., due to ingredient unavailability or a customer request), the owner should be able to update the order and inform the customer.
+
+#### Analytics and Reports:
+- The app should provide restaurant owners with insights on order trends, popular menu items, customer feedback, and sales performance.
+- These analytics should help owners optimize their menu offerings and improve business operations.
+
