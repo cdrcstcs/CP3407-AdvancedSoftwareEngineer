@@ -483,3 +483,245 @@ By dividing the user stories into three iterations, we have created a structured
 # Sequence Diagram
 ![Sequence Diagram](Sequence-Diagram-Workshop-4.png)
 
+# Workshop 5
+
+## Single Responsibility Principle (SRP)
+
+The Single Responsibility Principle (SRP) states that a class or module should have only one reason to change, meaning it should have only one responsibility or concern. Below is an evaluation of different schemas based on SRP.
+
+### 1. Image Schema
+**Responsibility:**  
+The Image schema represents an image object with a filename and is tied to storing image-related data.
+
+**Evaluation:**  
+This class adheres to SRP well. It has a single responsibility: handling image data (storing the image file name). There's no deviation from the single responsibility.
+
+---
+
+### 2. Order Schema
+**Responsibility:**  
+The Order schema is responsible for capturing information related to customer orders. This includes restaurant info, user details, delivery details, cart items, order status, etc.
+
+**Evaluation:**  
+The Order schema generally follows SRP, but it might be argued that its responsibility is quite broad. It ties together several concerns such as user, restaurant, cart items, delivery details, and order status. For better clarity and separation of concerns, it might make sense to break parts of the schema into smaller sub-documents. For example:
+- Separating `deliveryDetails` or `cartItems` into their own models could make the schema more modular.
+
+As it stands, the Order schema is focused primarily on order data.
+
+---
+
+### 3. MenuItem Schema
+**Responsibility:**  
+The MenuItem schema represents a menu item with a name and price.
+
+**Evaluation:**  
+This schema is focused and adheres to SRP. It is dedicated to defining a single unit in a restaurant's menu.
+
+---
+
+### 4. Restaurant Schema
+**Responsibility:**  
+The Restaurant schema represents restaurant data, including user ownership, restaurant details, menu items, image references, etc.
+
+**Evaluation:**  
+This schema is performing multiple responsibilities, including managing restaurant info (name, location), menu items, and linking to image and user data. While this generally follows SRP, there’s potential to split responsibilities:
+- `MenuItems` could be separated into their own model for better flexibility.
+- References to `Image` and `User` could be abstracted into their respective models. However, including these references here is acceptable as they are intrinsic to the restaurant's setup.
+
+---
+
+### 5. User Schema
+**Responsibility:**  
+The User schema represents user data, including personal details, authentication info, and references to images and hotels.
+
+**Evaluation:**  
+This schema is somewhat broad in scope. It defines both a user’s personal details and references to images and hotels. It could be argued that it should focus primarily on user data such as authentication info (email, password), while image and hotel references could be placed in separate models. However, for this context, the inclusion of these references is acceptable, as they represent a one-to-one relationship between user and image/hotel.
+
+---
+
+## Don't Repeat Yourself (DRY)
+
+The DRY principle suggests that duplication in code or data structures should be avoided. Below are observations and recommendations for reducing redundancy across models.
+
+### 1. Repeated References to Image in Multiple Models
+**Problem:**  
+The `Image` schema is referenced multiple times across models (e.g., `User`, `Restaurant`). While this is not strictly a violation of DRY, it does result in repetition when handling images.
+
+**Recommendation:**  
+Consider creating an image handling service or utility that abstracts the logic of managing images, reducing redundancy in how images are referenced across different models.
+
+---
+
+### 2. Similar Validation Across Models
+**Problem:**  
+Several models have similar validation requirements for fields like `name` and `email`. For example:
+- `name` is required in the `User`, `Restaurant`, and `Order` schemas.
+- `email` is used in `User` and `Order`.
+
+This results in repetitive validation logic across multiple places.
+
+**Recommendation:**  
+Utilize custom validation functions or utility functions for common validation logic across schemas. This would reduce duplication and ensure consistency when applying validations across models.
+
+---
+
+### 3. Hardcoded Field Names
+**Problem:**  
+Field names like `longitude` and `latitude` are hardcoded into multiple models (e.g., `User`, `Order`). This could lead to duplication, making it harder to maintain consistency across the application.
+
+**Recommendation:**  
+Create a shared schema or utility to handle geolocation data. This shared schema can be reused across multiple models to ensure consistency and reduce duplication of field names.
+
+---
+
+## Conclusion
+
+This workshop focused on applying the **Single Responsibility Principle (SRP)** and **Don't Repeat Yourself (DRY)** principles to schemas in a model-driven architecture. By following SRP, each schema is made more focused and easier to maintain. Additionally, DRY helps reduce redundancy, making the system more efficient and maintainable. Consider the suggestions to improve schema modularity, validation reusability, and reduce duplication in the codebase.
+
+
+# Project Progress
+
+The project aims to create a platform where users can interact with restaurants, place orders, and manage their details. Below is the current status of the project, including model definitions, implemented functionality, and the issues faced.
+
+## Model Definitions
+
+### 1. Image Model
+The **Image** model is designed to store image references, specifically filenames, to link images with users and restaurants.
+
+---
+
+### 2. User Model
+The **User** model stores user-related information, such as:
+- Name
+- Email
+- Authentication details
+- References to images
+
+---
+
+### 3. Restaurant Model
+The **Restaurant** model captures restaurant-related data, including:
+- Name
+- Location
+- Menu items
+- Image references
+
+---
+
+### 4. Order Model
+The **Order** model manages customer orders, including:
+- Cart items
+- Delivery details
+- Status
+- Associated restaurant/user references
+
+---
+
+### 5. MenuItem Model
+The **MenuItem** model defines the items available in a restaurant’s menu. Each restaurant has its own set of menu items.
+
+---
+
+## Functionality Implemented
+
+### 1. Image Handling
+- Image upload and retrieval functionality are in place.
+- Images are linked to both users and restaurants.
+
+---
+
+### 2. User Management
+- Endpoints are available for:
+  - Creating users
+  - Retrieving user details
+  - Linking images to the user
+
+---
+
+### 3. Restaurant Management
+- CRUD functionality for managing restaurants:
+  - Creating, updating, and retrieving restaurant details
+  - Managing restaurant orders
+
+---
+
+### 4. Order Management
+- Order creation and status management are implemented:
+  - Users can place orders and track their status with the restaurant
+
+---
+
+### 5. Search and Filtering
+- Restaurants can be searched based on parameters such as:
+  - City
+  - Cuisine
+- Pagination and sorting are implemented for the search results.
+
+---
+
+### 6. Error Handling
+- Proper error handling mechanisms are in place to address:
+  - Missing data
+  - Invalid inputs
+  - Server issues
+
+---
+
+## Issues Facing
+
+### 1. Repetitive References
+**Problem:**  
+The **Image** model is referenced in multiple models, including **User** and **Restaurant**, which can result in redundant code and tight coupling.
+
+**Solution:**  
+It may be more efficient to manage image handling through a separate service or utility, reducing redundancy and improving maintainability.
+
+---
+
+### 2. Complex Schema
+**Problem:**  
+The **Restaurant** and **Order** schemas are handling multiple responsibilities:
+- The **Order** schema is responsible for user details, cart items, and order status.
+- The **Restaurant** schema manages restaurant info, menu items, and image references.
+
+**Solution:**  
+These schemas could benefit from abstraction:
+- Splitting the **Order** schema into smaller sub-documents or separate models.
+- This will help improve maintainability and scalability by adhering to the **Single Responsibility Principle (SRP)**.
+
+---
+
+### 3. Validation Duplication
+**Problem:**  
+There is repetitive validation logic for common fields like:
+- Name
+- Email
+- Longitude and latitude
+
+**Solution:**  
+To reduce duplication, centralize common validation logic into reusable validation functions. This would ensure consistency across schemas and reduce redundancy.
+
+---
+
+### 4. Geolocation Data
+**Problem:**  
+Geolocation data (e.g., longitude and latitude) is duplicated across several models (e.g., **User**, **Order**).
+
+**Solution:**  
+A more unified approach should be considered:
+- Use a shared schema or utility for geolocation data to simplify maintenance and avoid duplication.
+
+---
+
+### 5. Scalability and Flexibility
+**Problem:**  
+The current approach for handling **cartItems** and **menuItems** is rigid. As the number of menu items grows or the order structure becomes more complex, this approach may become inefficient.
+
+**Solution:**  
+Refactoring the cart and menu item handling for better flexibility and performance should be prioritized. This will ensure the platform can handle scaling needs effectively in the future.
+
+---
+
+## Conclusion
+
+The project has made significant progress in terms of defining models and implementing core functionality, such as image handling, user and restaurant management, and order tracking. However, several challenges have been identified, particularly related to code duplication, schema complexity, and scalability. Addressing these issues through abstraction, reusable utilities, and better schema organization will improve the platform's maintainability and performance in the long run.
