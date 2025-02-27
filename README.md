@@ -344,3 +344,134 @@ In this final iteration, we will integrate payment options and enhance the app's
 
 By dividing the user stories into three iterations, we have created a structured plan that allows for the progressive development of the Food Ordering Application. Iteration 1 ensures that core features are functional, providing a foundation for future enhancements in Iteration 2. Finally, Iteration 3 will add advanced features like payment processing, search filters, and loyalty programs, rounding out the application for full deployment.
 
+# Workshop 4
+# Activity 1
+# Food Ordering Application - User Stories and Estimations
+
+## User Story 1: Browsing and Ordering Food
+**As a customer, I want to browse a well-organized food menu, filter the food items by different criteria, and add my selected items to the cart, so that I can easily find my desired food, customize my order, and proceed to checkout efficiently.**
+
+**Estimation: 40 hours**
+
+### Tasks and Estimations:
+- **Menu Browsing Interface (12 hours)**
+  - Design UI for food categories and items: 4 hours
+  - Implement front-end logic for menu browsing: 5 hours
+  - Integrate with the back-end to fetch food items: 3 hours
+
+- **Filters (10 hours)**
+  - Design UI for filters (e.g., price, dietary restrictions, cuisine): 4 hours
+  - Implement back-end logic for filtering food items: 3 hours
+  - Test filtering functionality: 3 hours
+
+- **Food Item Details (Customization, Prices) (10 hours)**
+  - Design UI for food item details (ingredients, portion sizes, prices): 4 hours
+  - Implement front-end logic for customizing food items: 4 hours
+  - Integrate back-end API for updating food item customization: 2 hours
+
+- **Cart Functionality and Checkout Process (8 hours)**
+  - Implement functionality to add food items to the cart: 3 hours
+  - Implement cart view and edit options (modify quantity, remove items): 3 hours
+  - Design checkout page UI and integrate with back-end for order submission: 2 hours
+
+---
+
+## User Story 2: Real-Time Order Tracking for Customers
+**As a customer, I want to receive real-time order status updates via notifications, so that I can track my order from preparation to delivery and be informed of any changes or delays.**
+
+**Estimation: 30 hours**
+
+### Tasks and Estimations:
+- **Real-time Updates (15 hours)**
+  - Design UI for displaying order status updates (preparing, ready, completed): 5 hours
+  - Implement real-time order status updates (e.g., using WebSockets or polling): 6 hours
+  - Test real-time updates across different devices: 4 hours
+
+- **Push Notifications Integration (10 hours)**
+  - Set up push notification service (Firebase/OneSignal): 4 hours
+  - Implement push notifications for order status updates: 4 hours
+  - Test notifications for different scenarios (order status changes, delays, etc.): 2 hours
+
+- **SMS/Email Fallback (5 hours)**
+  - Integrate SMS/Email notification service (Twilio, SendGrid): 3 hours
+  - Implement logic for fallback SMS/Email notifications: 2 hours
+
+---
+
+## User Story 3: Restaurant Order Management
+**As a restaurant owner, I want to manage incoming orders, update their status, and track order progress in real-time, so that I can ensure smooth order fulfillment and keep customers informed of their order status.**
+
+**Estimation: 50 hours**
+
+### Tasks and Estimations:
+- **Order Dashboard (20 hours)**
+  - Design UI for order management dashboard (incoming orders, current status): 8 hours
+  - Implement backend API for fetching and displaying incoming orders: 6 hours
+  - Implement front-end logic to display orders in real-time: 6 hours
+
+- **Order Status Updates (Preparing, Ready, Completed) (15 hours)**
+  - Design UI to update order statuses: 5 hours
+  - Implement backend functionality to update order statuses (preparing, ready, completed): 6 hours
+  - Integrate the order status with the real-time system: 4 hours
+
+- **Menu Management (Edit/Add/Remove Items) (10 hours)**
+  - Design UI for adding/editing/removing menu items: 4 hours
+  - Implement backend logic to update menu items (CRUD operations): 5 hours
+  - Test the menu management system: 1 hour
+
+- **Analytics Integration (5 hours)**
+  - Design UI for basic order analytics (total orders, revenue): 2 hours
+  - Implement backend logic to fetch order data and generate reports: 2 hours
+  - Integrate analytics data with the front-end: 1 hour
+
+---
+
+## Iteration Breakdown
+
+### Iteration 1: Core Features for Browsing and Ordering (3 weeks)
+- **Browsing and Ordering Food**
+  - Tasks: Menu Browsing Interface (12 hours), Filters (10 hours), Food Item Details (Customization, Prices) (10 hours), Cart Functionality and Checkout Process (8 hours)
+  - **Total time**: 40 hours
+
+- **Restaurant Order Management**
+  - Tasks: Order Dashboard (20 hours), Order Status Updates (15 hours)
+  - **Total time**: 35 hours
+
+---
+
+### Iteration 2: User Experience Enhancements and Order Tracking (2 weeks)
+- **Real-Time Order Tracking for Customers**
+  - Tasks: Real-time Updates (15 hours), Push Notifications Integration (10 hours), SMS/Email Fallback (5 hours)
+  - **Total time**: 30 hours
+
+- **Order Customization and Cart Management**
+  - Tasks: UI for Customization (5 hours), Backend for Customization (5 hours), Cart Management (5 hours)
+  - **Total time**: 15 hours
+
+---
+
+### Iteration 3: Payment Integration, Analytics, and Additional Features (3 weeks)
+- **Payment Integration**
+  - Tasks: Integrate Payment Methods (15 hours)
+
+- **Advanced Search and Filtering**
+  - Tasks: Search Filters UI (5 hours), Backend for Advanced Filters (5 hours)
+
+- **Analytics and Reporting for Restaurants**
+  - Tasks: Analytics Dashboard UI (5 hours), Backend Analytics Integration (5 hours)
+
+- **Loyalty Program and Promotions**
+  - Tasks: Loyalty Program Logic (5 hours), Promo Code System (5 hours)
+
+---
+
+## Summary of Time Estimates by Iteration:
+- **Iteration 1:**
+  - **Total time**: 75 hours (3 weeks)
+
+- **Iteration 2:**
+  - **Total time**: 45 hours (2 weeks)
+
+- **Iteration 3:**
+  - **Total time**: 50 hours (3 weeks)
+
