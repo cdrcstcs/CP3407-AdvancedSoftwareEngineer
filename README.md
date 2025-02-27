@@ -475,3 +475,5 @@ By dividing the user stories into three iterations, we have created a structured
 - **Iteration 3:**
   - **Total time**: 50 hours (3 weeks)
 
+# Class Diagram
+![Class Diagram](Class-Diagram-Workshop-4.jpeg)
