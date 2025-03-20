@@ -7,9 +7,9 @@ import restaurantRoute from "./routes/RestaurantRoute";
 import orderRoute from "./routes/OrderRoute";
 import imageRoute from "./routes/ImageRoute";
 import Image from "./models/Image";
-import Order from "./models/order";
-import Restaurant from "./models/restaurant";
-import User from "./models/user";
+import Order from "./models/Order";
+import Restaurant from "./models/Restaurant";
+import User from "./models/User";
 import 'dotenv/config'
 import { generateImageData, generateOrders, generateRestaurants, generateUsers } from "./data";
 const app = express();
@@ -21,6 +21,8 @@ app.use("/user", myUserRoute);
 app.use("/myres/", myRestaurantRoute);
 app.use("/restaurant", restaurantRoute);
 app.use("/order", orderRoute);
+export default app;
+
 mongoose.connect(process.env.MONGODB || "").then(async () => {
   await Image.deleteMany();
   await User.deleteMany();

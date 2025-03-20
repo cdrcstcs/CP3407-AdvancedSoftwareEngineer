@@ -1,24 +1,24 @@
 import express from "express";
 import MyRestaurantController from "../controllers/MyRestaurantController";
-import { validateMyRestaurantRequest } from "../middleware/validation";
+import { validateMyRestaurantRequest } from "../middleware/Validation";
 import { extractUserIdMiddleware } from "../middleware/Middleware";
 import multer from "multer";
 const upload = multer();
 
-const router = express.Router();
-router.get("/order", 
+const myRestaurantRoute = express.Router();
+myRestaurantRoute.get("/order", 
     // extractUserIdMiddleware, 
     MyRestaurantController.getMyRestaurantOrders);
-router.patch("/order/:orderId/status", 
+myRestaurantRoute.patch("/order/:orderId/status", 
     // extractUserIdMiddleware, 
     MyRestaurantController.updateOrderStatus);
-router.get("/", 
+myRestaurantRoute.get("/", 
     // extractUserIdMiddleware, 
     MyRestaurantController.getMyRestaurant);
-router.post("/", upload.none(), validateMyRestaurantRequest, 
+myRestaurantRoute.post("/", validateMyRestaurantRequest, 
     // extractUserIdMiddleware, 
     MyRestaurantController.createMyRestaurant);
-router.put("/", upload.none(), 
+myRestaurantRoute.put("/", 
     // extractUserIdMiddleware, 
     validateMyRestaurantRequest, MyRestaurantController.updateMyRestaurant);
-export default router;
+export default myRestaurantRoute;

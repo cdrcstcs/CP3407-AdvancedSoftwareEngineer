@@ -1,9 +1,9 @@
 import { Response } from "express";
-import Restaurant from "../models/restaurant";
+import Restaurant from "../models/Restaurant";
 import mongoose from "mongoose";
-import Order from "../models/order";
-import { AuthenticatedRequest } from "../interface/request";
-import User from "../models/user";
+import Order from "../models/Order";
+import { AuthenticatedRequest } from "../interface/Request";
+import User from "../models/User";
 const getMyRestaurant = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const restaurant = await Restaurant.findOne({ user: (await User.findOne())?._id });
@@ -79,7 +79,7 @@ const updateOrderStatus = async (req: AuthenticatedRequest, res: Response) => {
       return res.status(404).json({ message: "order not found" });
     }
     const restaurant = await Restaurant.findById(order.restaurant);
-    if (restaurant?.user?._id.toString() !== (await User.findOne())?._id) {
+    if (restaurant?.user?._id.toString() !== (await User.findOne())?._id.toString()) {
       return res.status(401).send();
     }
     order.status = status;

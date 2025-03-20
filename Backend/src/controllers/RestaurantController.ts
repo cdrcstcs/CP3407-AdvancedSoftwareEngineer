@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "../interface/request";
-import Restaurant from "../models/restaurant";
+import { AuthenticatedRequest } from "../interface/Request";
+import Restaurant from "../models/Restaurant";
 const getRestaurant = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const restaurantId = req.params.restaurantId;

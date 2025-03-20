@@ -1,9 +1,9 @@
 import { Response } from "express";
-import Order from "../models/order";
-import { AuthenticatedRequest } from "../interface/request";
-import Restaurant from "../models/restaurant";
+import Order from "../models/Order";
+import { AuthenticatedRequest } from "../interface/Request";
+import Restaurant from "../models/Restaurant";
 import mongoose from "mongoose";
-import User from "../models/user";
+import User from "../models/User";
 const getMyOrders = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const orders = await Order.find({ user: (await User.findOne())?._id })

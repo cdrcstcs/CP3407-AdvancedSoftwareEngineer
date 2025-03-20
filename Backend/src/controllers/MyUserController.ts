@@ -1,6 +1,6 @@
 import { Response } from "express";
-import User from "../models/user";
-import { AuthenticatedRequest } from "../interface/request";
+import User from "../models/User";
+import { AuthenticatedRequest } from "../interface/Request";
 const getCurrentUser = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const currentUser = await User.findOne({ _id: (await User.findOne())?._id });

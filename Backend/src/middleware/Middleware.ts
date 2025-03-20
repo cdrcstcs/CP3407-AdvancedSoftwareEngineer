@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express';
-import { AuthenticatedRequest } from '../interface/request';
+import { AuthenticatedRequest } from '../interface/Request';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = 'fasefraw4r5r3wq45wdfgw34twdfg';
 export const extractUserIdMiddleware = (

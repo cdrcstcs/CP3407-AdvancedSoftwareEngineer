@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { UserType, RestaurantType, OrderType, ImageType, MenuItemType, CartItemType  } from "./type";
-import Restaurant from "./models/restaurant";
-import User from "./models/user";
+import Restaurant from "./models/Restaurant";
+import User from "./models/User";
 import Image from "./models/Image";
 const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
