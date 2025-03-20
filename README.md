@@ -773,8 +773,8 @@ Refactoring the cart and menu item handling for better flexibility and performan
 
 The project has made significant progress in terms of defining models and implementing core functionality, such as image handling, user and restaurant management, and order tracking. However, several challenges have been identified, particularly related to code duplication, schema complexity, and scalability. Addressing these issues through abstraction, reusable utilities, and better schema organization will improve the platform's maintainability and performance in the long run.
 
-#Work Shop 7
-
+# Work Shop 7
+---
 # Food Ordering App - Test Cases
 
 ## Table of Contents
