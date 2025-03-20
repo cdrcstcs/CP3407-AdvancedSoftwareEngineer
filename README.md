@@ -27,14 +27,12 @@ The main objectives of this project are:
 - **Repository Link**: [GitHub - Food Ordering App](https://github.com/cdrcstcs/CP3407-AdvancedSoftwareEngineer)
 
 ## Team Members
-- **Student Name 1**: Phone Myint Naing  
-  **Project Role(s)**: [e.g., Frontend Developer, Backend Developer, etc.]
 
-- **Student Name 2**: Nguyen Dang Hieu  
-  **Project Role(s)**: [e.g., Backend Developer, Database Administrator, etc.]
+- **Student Name 1**: Nguyen Dang Hieu  
+  **Project Role(s)**: [Frontend Developer,UI/UX Designer,Backend Developer, Database Administrator]
 
-- **Student Name 3**: Low Yi Heng  
-  **Project Role(s)**: [e.g., Frontend Developer, UI/UX Designer, etc.]
+- **Student Name 2**: Low Yi Heng  
+  **Project Role(s)**: [UI/UX Designer]
 
 ## Installation
 
@@ -249,7 +247,56 @@ _So that I can ensure smooth order fulfillment and keep customers informed of th
 - The app should provide restaurant owners with insights on order trends, popular menu items, customer feedback, and sales performance.
 - These analytics should help owners optimize their menu offerings and improve business operations.
 
+## User Story 4: Customer Feedback and Rating System
+**As a customer,**  
+_I want to rate and provide feedback on my food and delivery experience,_  
+_So that I can help improve the service and guide other customers in their decisions._
 
+### Acceptance Criteria:
+
+#### Rating Food and Delivery:
+- After receiving the order, the app should prompt the customer to rate their food and delivery experience on a scale (e.g., 1 to 5 stars).
+- Customers should be able to leave optional comments to provide more detailed feedback.
+
+#### Review Submission:
+- Once the rating is submitted, the customer should receive a confirmation that their feedback has been successfully recorded.
+- The app should allow users to edit or delete their reviews within a limited time (e.g., 24 hours) after submission.
+
+#### Displaying Reviews:
+- The app should display aggregated ratings (average score) and individual customer reviews for each food item and restaurant.
+- Reviews should be visible to other customers when browsing the menu or restaurant.
+
+#### Admin Review Management:
+- Restaurant owners should have access to customer feedback through an admin panel and can respond to reviews or address complaints.
+- Negative reviews should trigger an alert to the restaurant owner to ensure timely attention.
+
+#### Incentives for Feedback:
+- The app should offer occasional rewards or incentives (e.g., discount codes, loyalty points) for customers who leave reviews.
+
+## User Story 5: Loyalty Program and Rewards for Customers
+**As a customer,**  
+_I want to earn loyalty points and redeem them for discounts or free items,_  
+_So that I am incentivized to order more frequently and feel valued as a customer._
+
+### Acceptance Criteria:
+
+#### Earning Points:
+- Customers should automatically earn loyalty points for every successful order they make, with a set amount of points per dollar spent (e.g., 1 point per $1 spent).
+- Points should be clearly visible in the user's profile and updated after each order.
+
+#### Redeeming Points:
+- Customers should be able to redeem accumulated points for rewards, such as discounts on future orders, free items, or exclusive offers.
+- A clear redemption process should be presented in the app, showing available rewards based on the customer's points balance.
+
+#### Tiered Loyalty System:
+- The app should offer multiple levels of loyalty (e.g., bronze, silver, gold) based on the customer’s total points accumulated over time.
+- Higher-tier members should receive additional benefits, such as faster delivery, special promotions, or exclusive access to new menu items.
+
+#### Points Expiry:
+- Loyalty points should have an expiration date (e.g., 6 months), and the app should notify customers when their points are nearing expiration.
+
+#### Loyalty Program Notifications:
+- The app should send notifications to customers when they earn points, when their points are about to expire, or when they unlock new rewards or tiers.
 
 ## Activity Three: User Story Prioritization and Iteration Planning
 
@@ -725,3 +772,191 @@ Refactoring the cart and menu item handling for better flexibility and performan
 ## Conclusion
 
 The project has made significant progress in terms of defining models and implementing core functionality, such as image handling, user and restaurant management, and order tracking. However, several challenges have been identified, particularly related to code duplication, schema complexity, and scalability. Addressing these issues through abstraction, reusable utilities, and better schema organization will improve the platform's maintainability and performance in the long run.
+
+# Work Shop 7
+---
+# Food Ordering App - Test Cases
+
+## Table of Contents
+1. [User Story 1: Browsing and Ordering Food](#user-story-1-browsing-and-ordering-food)
+2. [User Story 2: Real-Time Order Tracking for Customers](#user-story-2-real-time-order-tracking-for-customers)
+3. [User Story 3: Restaurant Order Management](#user-story-3-restaurant-order-management)
+4. [User Story 4: Customer Feedback and Rating System](#user-story-4-customer-feedback-and-rating-system)
+5. [User Story 5: Loyalty Program and Rewards for Customers](#user-story-5-loyalty-program-and-rewards-for-customers)
+
+---
+
+## User Story 1: Browsing and Ordering Food
+
+### Test Case 1: Browsing the Food Menu
+**Test Description**: Verify that users can browse the food menu by categories and view item details.  
+**Preconditions**: The app is loaded, and the user is logged in.  
+**Test Steps**:
+1. Open the food menu.
+2. Browse through different food categories (e.g., starters, main course, desserts).
+3. Click on a food item to view detailed information (e.g., ingredients, portion size, price).  
+**Expected Result**: The food items are displayed in categories, and the details of the selected food item are shown correctly.
+
+---
+
+### Test Case 2: Applying Filters
+**Test Description**: Verify that users can apply multiple filters to search the menu.  
+**Preconditions**: The app is loaded and the user is logged in.  
+**Test Steps**:
+1. Open the food menu.
+2. Apply filters for cuisine type (e.g., Italian), dietary preferences (e.g., gluten-free), and price range ($10–$20).
+3. View the filtered food items.  
+**Expected Result**: The food items should match the selected filters, and only those that meet the filter criteria are shown.
+
+---
+
+### Test Case 3: Customizing Food Order
+**Test Description**: Verify that users can customize their food order (e.g., modify ingredients or choose portion size).  
+**Preconditions**: The app is loaded and the user is logged in.  
+**Test Steps**:
+1. Select a food item.
+2. Modify the ingredients (e.g., remove onions, add extra cheese).
+3. Choose the portion size (e.g., small, medium, large).
+4. Add the customized item to the cart.  
+**Expected Result**: The food item is customized as per the user’s selections, and the modified item is added to the cart.
+
+---
+
+## User Story 2: Real-Time Order Tracking for Customers
+
+### Test Case 1: Receiving Order Status Notifications
+**Test Description**: Verify that the customer receives notifications for each stage of the order process.  
+**Preconditions**: The customer has placed an order.  
+**Test Steps**:
+1. Place an order.
+2. Wait for the order to be processed.
+3. Verify that the customer receives notifications at each stage (order received, preparing, ready for delivery, out for delivery, delivered).  
+**Expected Result**: Notifications should be sent at each stage, and the customer is kept informed of the order’s status.
+
+---
+
+### Test Case 2: Viewing Real-Time Order Status in the App
+**Test Description**: Verify that the customer can view the real-time order status within the app.  
+**Preconditions**: The customer has placed an order.  
+**Test Steps**:
+1. Place an order.
+2. Open the order tracking section in the app.
+3. View the order's real-time status (e.g., "Preparing," "Out for delivery").  
+**Expected Result**: The order status should update in real-time, reflecting the current stage of the order.
+
+---
+
+### Test Case 3: Modifying an Order Due to Delay
+**Test Description**: Verify that the customer is notified and can modify the order if there’s a delay.  
+**Preconditions**: The customer has placed an order, and a delay occurs.  
+**Test Steps**:
+1. Place an order and wait for the status update.
+2. Simulate a delay in the delivery.
+3. Verify that the customer receives a notification with an updated delivery time.
+4. Check if the app allows the customer to modify or cancel the order.  
+**Expected Result**: The customer should receive a notification about the delay, and the app should allow the customer to modify or cancel the order if permitted.
+
+---
+
+## User Story 3: Restaurant Order Management
+
+### Test Case 1: Managing Incoming Orders on the Dashboard
+**Test Description**: Verify that the restaurant owner can view and manage incoming orders on the dashboard.  
+**Preconditions**: The restaurant owner is logged in and receives a new order.  
+**Test Steps**:
+1. Log in as a restaurant owner.
+2. Access the order management dashboard.
+3. Verify that new orders are listed with relevant details (e.g., customer name, food items, delivery time).  
+**Expected Result**: The order management dashboard should display all incoming orders with essential details.
+
+---
+
+### Test Case 2: Updating Order Status
+**Test Description**: Verify that the restaurant owner can update the status of an order.  
+**Preconditions**: The restaurant owner is logged in, and an order is in progress.  
+**Test Steps**:
+1. Log in as a restaurant owner.
+2. Access the order management section.
+3. Update the status of an order (e.g., mark as "Being prepared" or "Ready for delivery").
+4. Verify that the customer receives a notification about the status change.  
+**Expected Result**: The order status should be updated, and the customer should receive the corresponding notification.
+
+---
+
+### Test Case 3: Order Modification by Restaurant Owner
+**Test Description**: Verify that the restaurant owner can modify an order (e.g., due to unavailability of ingredients).  
+**Preconditions**: The restaurant owner is logged in, and an order has been placed.  
+**Test Steps**:
+1. Log in as a restaurant owner.
+2. Access the order management section and select an order.
+3. Modify the order (e.g., replace ingredients or adjust the item).
+4. Notify the customer of the changes made to the order.  
+**Expected Result**: The order should be modified successfully, and the customer should be informed of the changes.
+
+---
+
+## User Story 4: Customer Feedback and Rating System
+
+### Test Case 1: Submitting a Rating for Food and Delivery
+**Test Description**: Verify that customers can rate food and delivery on a scale of 1 to 5 stars.  
+**Preconditions**: The customer has received their order.  
+**Test Steps**:
+1. After receiving the order, the customer is prompted to rate the food and delivery.
+2. Submit a rating (e.g., 4 stars) for the food and delivery.  
+**Expected Result**: The rating is submitted successfully, and a confirmation message is displayed.
+
+---
+
+### Test Case 2: Displaying Reviews for Food Items
+**Test Description**: Verify that customer reviews are displayed for each food item.  
+**Preconditions**: Customers have submitted reviews for various food items.  
+**Test Steps**:
+1. Open a food item’s page.
+2. Verify that the customer reviews (ratings and comments) are displayed under the food item.  
+**Expected Result**: The reviews should be displayed for each food item, showing ratings and any comments left by customers.
+
+---
+
+### Test Case 3: Editing or Deleting a Review
+**Test Description**: Verify that customers can edit or delete their reviews within a specified time (e.g., 24 hours).  
+**Preconditions**: The customer has submitted a review for an item.  
+**Test Steps**:
+1. Navigate to the submitted review.
+2. Edit the review (e.g., change the rating or update the comment).
+3. Optionally, delete the review within 24 hours of submission.  
+**Expected Result**: The review can be edited or deleted successfully within the allowed time window.
+
+---
+
+## User Story 5: Loyalty Program and Rewards for Customers
+
+### Test Case 1: Earning Loyalty Points for an Order
+**Test Description**: Verify that customers earn loyalty points for every successful order placed.  
+**Preconditions**: The customer has placed an order successfully.  
+**Test Steps**:
+1. Place an order.
+2. Check the customer's profile for updated loyalty points.  
+**Expected Result**: The customer should earn loyalty points based on the order value (e.g., 1 point per $1 spent).
+
+---
+
+### Test Case 2: Redeeming Loyalty Points
+**Test Description**: Verify that customers can redeem loyalty points for rewards.  
+**Preconditions**: The customer has accumulated enough loyalty points.  
+**Test Steps**:
+1. Open the rewards section of the app.
+2. Choose a reward based on available points.
+3. Redeem the points for a discount or free item.  
+**Expected Result**: The customer should be able to redeem the points for the chosen reward successfully.
+
+---
+
+### Test Case 3: Expiry of Loyalty Points
+**Test Description**: Verify that customers are notified when their loyalty points are about to expire.  
+**Preconditions**: The customer has loyalty points that are nearing expiration.  
+**Test Steps**:
+1. Wait until the customer’s loyalty points are close to their expiration date.
+2. Check for any notifications about the points expiring soon.  
+**Expected Result**: The app should send a notification to the customer informing them about the impending expiration of their points.
+
+---
