@@ -45,7 +45,7 @@ const generateUsers = async (): Promise<UserType[]> => {
     "South Africa",
   ];
   const userTypes: string[] = ["ADMIN", "USER"];
-  const imageIds: mongoose.Types.ObjectId[] = (await Image.find()).map(({ _id }) => _id);
+  const imageIds: mongoose.Types.ObjectId[] = (await Image.find()).map(({ _id }) => _id) as any;
   for (let i = 0; i < 20; i++) {
     const user: UserType = {
       _id: new mongoose.Types.ObjectId,
@@ -154,8 +154,8 @@ const generateRestaurants = async (): Promise<RestaurantType[]> => {
     "India",
     "South Africa",
   ];
-  const userIds: mongoose.Types.ObjectId[] = (await User.find()).map(({ _id }) => _id);
-  const imageIds: mongoose.Types.ObjectId[] = (await Image.find()).map(({ _id }) => _id);
+  const userIds: mongoose.Types.ObjectId[] = (await User.find()).map(({ _id }) => _id) as any;
+  const imageIds: mongoose.Types.ObjectId[] = (await Image.find()).map(({ _id }) => _id) as any;
 
   for (let i = 0; i < 200; i++) {
     const menuItems: MenuItemType[] = generateMenuItems();
@@ -184,7 +184,7 @@ const generateOrders = async (): Promise<OrderType[]> => {
     { menuItemId: new mongoose.Types.ObjectId(), quantity: 1, name: "Pizza" },
     { menuItemId: new mongoose.Types.ObjectId(), quantity: 3, name: "Salad" },
   ];
-  const userIds: mongoose.Types.ObjectId[] = (await User.find()).map(({ _id }) => _id);
+  const userIds: mongoose.Types.ObjectId[] = (await User.find()).map(({ _id }) => _id) as any;
   const restaurantIds: mongoose.Types.ObjectId[] = (await Restaurant.find()).map(({ _id }) => _id);
 
   for (let i = 0; i < 20; i++) {

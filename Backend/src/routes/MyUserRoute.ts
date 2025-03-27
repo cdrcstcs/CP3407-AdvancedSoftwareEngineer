@@ -1,8 +1,9 @@
 import express from "express";
-import MyUserController from "../controllers/MyUserController";
-import { extractUserIdMiddleware } from "../middleware/Middleware";
+import { userController } from "../patterns/StrategyPattern";
 const myUserRoute = express.Router();
-myUserRoute.get("/", 
-    // extractUserIdMiddleware, 
-    MyUserController.getCurrentUser);
+
+// Route for getting the current user
+myUserRoute.get("/current-user", (req, res) => {
+    userController.getCurrentUser(req, res); // Use the strategy to get the current user
+});
 export default myUserRoute;

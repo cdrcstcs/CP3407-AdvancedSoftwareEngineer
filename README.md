@@ -960,3 +960,138 @@ The project has made significant progress in terms of defining models and implem
 **Expected Result**: The app should send a notification to the customer informing them about the impending expiration of their points.
 
 ---
+# Workshop 8
+
+### 1. `interface/Request.ts` - Interfaces
+
+```typescript
+import { Request } from "express";
+import User from "../models/User";
+import { Document } from "mongoose";
+
+// Extending Express Request with a userId
+export interface AuthenticatedRequest extends Request {
+  userId?: string;
+}
+
+// IImage Interface for Image model
+export interface IImage extends Document {
+  image: string;  // This field is of type string, which stores the filename or path of the image
+}
+
+// IUser Interface for User model
+export interface IUser extends Document {
+  imageId: IImage["_id"]; // Reference to the Image model
+  name: string;
+  email: string;
+  password: string;
+  phone: string;  // Changed from Number to String
+  longitude?: number;  // Optional
+  latitude?: number;  // Optional
+  userType: "ADMIN" | "USER";  // Enum for user types
+}
+
+// Interface for the User Retrieval Strategy
+export interface UserRetrievalStrategy {
+  getCurrentUser(req: AuthenticatedRequest): Promise<IUser | null>;
+}
+
+// FindByIdStrategy class implementing the UserRetrievalStrategy interface
+export class FindByIdStrategy implements UserRetrievalStrategy {
+  async getCurrentUser(): Promise<IUser | null> {
+    const currentUser = await User.findOne({ _id: (await User.findOne())?._id });
+    return currentUser;
+    ;
+  }
+}
+```
+### 2. Strategy Pattern
+
+```typescript
+
+import { Response } from "express";
+import { AuthenticatedRequest } from "../interface/Request";
+import { FindByIdStrategy } from "../interface/Request";
+import { UserRetrievalStrategy } from "../interface/Request";
+class StrategyPattern {
+    private userRetrievalStrategy: UserRetrievalStrategy;
+
+    constructor(userRetrievalStrategy: UserRetrievalStrategy) {
+        this.userRetrievalStrategy = userRetrievalStrategy;
+    }
+
+    setUserRetrievalStrategy(userRetrievalStrategy: UserRetrievalStrategy) {
+        this.userRetrievalStrategy = userRetrievalStrategy;
+    }
+
+    async getCurrentUser(req: AuthenticatedRequest, res: Response) {
+        try {
+            // Using the selected strategy to retrieve the current user
+            const currentUser = await this.userRetrievalStrategy.getCurrentUser(req);
+
+            if (!currentUser) {
+                return res.status(404).json({ message: "User not found" });
+            }
+
+            res.json(currentUser);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: "Something went wrong" });
+        }
+    }
+}
+
+// Example Usage
+const findByIdStrategy = new FindByIdStrategy();
+
+// Using the FindByIdStrategy to get the current user
+export const userController = new StrategyPattern(findByIdStrategy);
+
+```
+
+The **Strategy Pattern** allows you to define a family of algorithms (or strategies), encapsulate each one, and make them interchangeable. In this example, the strategy pattern is used to retrieve the current user from the database with different strategies, such as finding the user by their ID.
+
+This approach enables you to easily swap strategies at runtime, making your code modular and easier to maintain.
+
+## Key Concepts
+
+### Strategy Pattern
+
+The **Strategy Pattern** is a behavioral design pattern that enables selecting an algorithm or behavior at runtime. It defines a family of algorithms, encapsulates each one, and makes them interchangeable. This means that you can define multiple ways of retrieving user data, encapsulate each retrieval strategy, and select which strategy to use at runtime without changing the core logic of your application.
+
+For example, in this project, different strategies are implemented for retrieving users from the database (e.g., by user ID, by email, etc.). You can easily swap strategies at runtime based on the need.
+
+### Dynamic Behavior Selection
+
+In this project, the **StrategyPattern** class allows you to choose which strategy to use for retrieving user data. Initially, the strategy is set to retrieve the user by their ID, but it can be changed dynamically to retrieve the user based on other criteria (such as email or username). This makes the code more flexible, as different strategies can be swapped without altering the core logic of the application.
+
+## Code Structure
+
+### Interfaces
+
+In this project, multiple interfaces are defined to ensure a structured and consistent way of handling data across the application:
+
+- **`AuthenticatedRequest`**: Extends the standard Express `Request` object to include an optional `userId` field, allowing the request to carry the authenticated user's ID. This is useful when fetching user data from the database.
+
+- **`IImage`**: Represents an image associated with the user. This interface contains an `image` field that stores the filename or path to the image. The `IImage` interface helps organize image-related data in the system.
+
+- **`IUser`**: Represents the structure of a user in the system. It includes fields like `name`, `email`, `password`, and `phone`. The `userType` field distinguishes between `ADMIN` and `USER` roles. The `longitude` and `latitude` fields are optional and are used for storing the user's location. This interface also includes a reference to the user's image through `imageId`.
+
+- **`UserRetrievalStrategy`**: This interface defines the contract for any strategy that retrieves user data. It declares the `getCurrentUser` method, which will be implemented differently by each strategy. This makes the retrieval logic flexible and interchangeable.
+
+### Strategy Implementation
+
+The second part of the project implements the **Strategy Pattern** by creating a strategy management system for retrieving user data. Here's an overview of the key components:
+
+- **`StrategyPattern` Class**: This class is responsible for managing and switching between different user retrieval strategies. It holds a reference to a `UserRetrievalStrategy` and allows the strategy to be changed dynamically. This class uses the strategy to retrieve the current user based on the information in the request.
+
+- **`setUserRetrievalStrategy` Method**: This method allows you to change the current strategy at runtime. You can dynamically switch from one strategy to another, such as switching from retrieving users by ID to another retrieval method (e.g., by email).
+
+- **`getCurrentUser` Method**: This method uses the currently selected strategy to retrieve the user. It checks for errors and returns appropriate HTTP status codes (`404` if the user is not found, `500` for internal server errors). The strategy itself is responsible for how the user is retrieved.
+
+## Example Usage
+
+The **StrategyPattern** class can be used in your Express routes to retrieve the current user. By using the strategy pattern, you can easily switch the retrieval logic depending on your requirements. This makes the application more modular and adaptable to changes without affecting the core functionality.
+
+The `setUserRetrievalStrategy` method can be used to switch strategies at runtime, allowing flexibility when retrieving user data based on different criteria (e.g., user ID, email, etc.).
+
