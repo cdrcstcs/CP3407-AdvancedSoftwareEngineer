@@ -1095,3 +1095,118 @@ The **StrategyPattern** class can be used in your Express routes to retrieve the
 
 The `setUserRetrievalStrategy` method can be used to switch strategies at runtime, allowing flexibility when retrieving user data based on different criteria (e.g., user ID, email, etc.).
 
+### 3. Mock Object For Testing
+
+```typescript
+
+import request from 'supertest';
+import app from '..';
+import User from '../models/User';
+import mongoose from 'mongoose';
+
+// Mock the User model to avoid database interaction
+jest.mock('../models/user');
+
+// Clear mock calls after each test
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+// Close mongoose connection after all tests
+afterAll(async () => {
+  await mongoose.connection.close();
+});
+
+describe('MyUser API Routes', () => {
+  beforeAll(async () => {
+    // Connect to a test database if necessary
+    await mongoose.connect('mongodb://localhost:27017/testDB');
+  });
+
+  describe('GET /', () => {
+    it('should return the current user if found', async () => {
+      // Mock the User.findOne method to return a mock user
+      const mockUser = { _id: 'userId', name: 'John Doe', email: 'john@example.com' };
+      
+      // Ensure User.findOne is mocked correctly
+      (User.findOne as jest.Mock).mockResolvedValue(mockUser);
+
+      const response = await request(app).get('/').expect(200);
+
+      // Assert that the response is the mock user
+      expect(response.body).toEqual(mockUser);
+      expect(response.status).toBe(200);
+    });
+
+    it('should return 404 if the user is not found', async () => {
+      // Mock the User.findOne method to return null (user not found)
+      (User.findOne as jest.Mock).mockResolvedValue(null);
+
+      const response = await request(app).get('/').expect(404);
+
+      // Assert that the response contains the correct error message
+      expect(response.body.message).toBe('User not found');
+      expect(response.status).toBe(404);
+    });
+
+    it('should return 500 if there is an error fetching the user', async () => {
+      // Mock the User.findOne method to throw an error
+      (User.findOne as jest.Mock).mockRejectedValue(new Error('Database error'));
+
+      const response = await request(app).get('/').expect(500);
+
+      // Assert that the response contains the correct error message
+      expect(response.body.message).toBe('Something went wrong');
+      expect(response.status).toBe(500);
+    });
+  });
+});
+```
+
+# Test for MyUser API Routes
+
+This document explains the tests for the **MyUser API Routes** which are designed to ensure the correct functionality of the routes in the application. The tests are written using **Jest** for unit testing and **Supertest** for making HTTP requests to the API. The tests cover various scenarios for fetching the current user through the API endpoint.
+
+## Overview
+
+The tests for the **MyUser API Routes** verify the behavior of the route handling the request to get the current user. These tests aim to check the response in various cases: when the user is found, when the user is not found, and when there is an error during the database operation. The tests are structured to validate the expected status codes and response messages.
+
+## Test Setup
+
+The tests begin by establishing a connection to a MongoDB test database using **Mongoose**. This ensures that the application interacts with an isolated test database, preventing any impact on the production database. The tests also use **Supertest** to simulate HTTP requests to the application and verify the correctness of the response.
+
+### Jest Mocks
+
+To avoid interaction with the actual database during testing, the **User model** is mocked using **Jest's mocking features**. This allows us to simulate the behavior of the `User.findOne` method without performing any real database operations.
+
+## Test Scenarios
+
+### Scenario 1: User Found
+
+- **Test Description**: This test ensures that when a valid user is found in the database, the API responds with a `200 OK` status and returns the user information.
+- **Expected Behavior**: The response body should contain the mock user data, and the response status should be `200`.
+- **Mocking**: The `User.findOne` method is mocked to return a mock user object with fields such as `_id`, `name`, and `email`.
+
+### Scenario 2: User Not Found
+
+- **Test Description**: This test ensures that if no user is found in the database, the API returns a `404 Not Found` status with a proper error message.
+- **Expected Behavior**: The response body should contain an error message saying `"User not found"`, and the response status should be `404`.
+- **Mocking**: The `User.findOne` method is mocked to return `null`, simulating the case where no user is found in the database.
+
+### Scenario 3: Error Fetching User
+
+- **Test Description**: This test ensures that if there is an error during the execution of the database query, the API responds with a `500 Internal Server Error` status and an appropriate error message.
+- **Expected Behavior**: The response body should contain the error message `"Something went wrong"`, and the response status should be `500`.
+- **Mocking**: The `User.findOne` method is mocked to throw an error, simulating a failure in the database operation.
+
+## Test Cleanup
+
+- **Clearing Mocks**: After each test, Jest's `clearAllMocks` function is called to clear the mock function calls. This ensures that the mock data doesn't affect the subsequent tests.
+- **Closing the Database Connection**: After all tests are completed, the connection to the MongoDB database is closed using `mongoose.connection.close()` to clean up resources.
+
+## Mocking the Database
+
+Since the actual database interaction is not required for these tests, the **User model** is mocked. This prevents the tests from performing real database operations. Instead, predefined mock values are returned from the mocked `User.findOne` method, allowing the tests to simulate different conditions (user found, user not found, database error) without needing access to the actual database.
+
+This approach ensures that the tests are isolated, fast, and focused on verifying the functionality of the API logic rather than database interaction.
+
