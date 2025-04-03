@@ -440,7 +440,7 @@ By dividing the user stories into three iterations, we have created a structured
   - Test notifications for different scenarios (order status changes, delays, etc.): 2 hours
 
 - **SMS/Email Fallback (5 hours)**
-  - Integrate SMS/Email notification service (Twilio, SendGrid): 3 hours
+  - Integrate SMS/Email notification service (SendGrid): 3 hours
   - Implement logic for fallback SMS/Email notifications: 2 hours
 
 ---
@@ -1210,3 +1210,453 @@ Since the actual database interaction is not required for these tests, the **Use
 
 This approach ensures that the tests are isolated, fast, and focused on verifying the functionality of the API logic rather than database interaction.
 
+# Workshop 9
+
+# Architecture Design
+
+The architecture follows a modular and scalable design that supports key features such as image handling, user management, restaurant management, order management, search functionality, and error handling. Below is the high-level architecture design that details the components, their interactions, and the technologies used.
+
+---
+
+## 1. Overview
+
+The RMS architecture consists of several layers, each responsible for a specific aspect of the system's functionality. The architecture uses a **multi-tier architecture** with the following layers:
+
+- **Presentation Layer (User Interface)**
+- **Business Logic Layer (Application Layer)**
+- **Data Access Layer (Persistence Layer)**
+- **External Services Layer (Third-Party Integrations)**
+
+This layered architecture provides modularity, scalability, and maintainability, making it easy to modify or expand the system over time.
+
+---
+
+## 2. Component Overview
+
+### 2.1 Presentation Layer (User Interface)
+
+**Description:**  
+The Presentation Layer is responsible for handling all user interactions, displaying data, and providing an interface to interact with the system.
+
+**Components:**
+- **Web Client (Frontend):** A responsive web application that allows users (customers, restaurant owners, and admins) to interact with the system.
+- **Mobile Client (Optional):** A mobile application (iOS/Android) that interacts with the system via APIs.
+
+**Technologies:**
+- HTML/CSS/JavaScript (Frontend)
+- React.js (JavaScript Framework)
+- Redux (State Management for React apps)
+- Bootstrap or Material UI (UI Components)
+
+### 2.2 Business Logic Layer (Application Layer)
+
+**Description:**  
+This layer processes business logic, interacts with the database, and manages core functionality such as user management, restaurant CRUD operations, order management, and search functionality.
+
+**Components:**
+- **API Gateway:** Handles incoming HTTP requests from clients and forwards them to the appropriate services.
+- **User Service:** Manages user-related operations such as registration, login, profile management, and image linking.
+- **Restaurant Service:** Handles restaurant CRUD operations, including the addition, update, and retrieval of restaurant details.
+- **Order Service:** Manages order creation, status updates, and linking orders to users and restaurants.
+- **Search Service:** Provides search functionality for restaurants based on filters such as city and cuisine.
+- **Error Handling Service:** Handles validation, errors, and exceptions across the system.
+
+**Technologies:**
+- Node.js (Backend Framework)
+- Java/Spring Boot (Optional for backend)
+- RESTful APIs (API Communication)
+- JWT (Authentication)
+
+### 2.3 Data Access Layer (Persistence Layer)
+
+**Description:**  
+This layer is responsible for interacting with the database, managing data storage, and ensuring data persistence.
+
+**Components:**
+- **Database:** Stores structured data such as user profiles, restaurant details, images, orders, etc.
+- **ORM (Object-Relational Mapping):** Handles communication between the business logic layer and the database using object models.
+
+**Technologies:**
+- MongoDB (Optional for unstructured data, such as order logs or metadata)
+- Sequelize or TypeORM (ORM for Node.js)
+- AWS S3/Google Cloud Storage (For storing images)
+
+### 2.4 External Services Layer
+
+**Description:**  
+This layer interacts with third-party services that integrate with the RMS.
+
+**Components:**
+- **Payment Gateway:** Facilitates order payments ( Stripe and PayPal).
+- **Image Storage Service:** Manages the uploading and retrieval of images ( AWS S3 ).
+- **Email/SMS Notification Service:** Sends notifications for order status, registration, etc.
+
+**Technologies:**
+- Stripe and PayPal API (Payment Integration)
+- AWS S3 (Image Storage)
+- SendGrid (Email Notifications)
+
+---
+
+## 3. Architecture Diagram
+
+```plaintext
++--------------------------------------------------+
+|                Client (Frontend)                 |
+|  +---------------------+   +------------------+  |
+|  |   Web Interface     |   |   Mobile App     |  |
+|  +---------------------+   +------------------+  |
+|          |                                |      |
++----------|--------------------------------|------+
+           |                                |
++----------v--------------------------------v------+
+|             API Gateway / Load Balancer           |
++--------------------------------------------------+
+           |                                |
++----------v--------------------------------v------+
+|        Business Logic Layer (Application)       |
+|  +-------------------+   +--------------------+  |
+|  |   User Service    |   |   Order Service    |  |
+|  +-------------------+   +--------------------+  |
+|  +-------------------+   +--------------------+  |
+|  | Restaurant Service|   |   Search Service   |  |
+|  +-------------------+   +--------------------+  |
+|  +-------------------+   +--------------------+  |
+|  | Error Handling    |   | Authentication     |  |
+|  +-------------------+   +--------------------+  |
++--------------------------------------------------+
+           |                                |
++----------v--------------------------------v------+
+|            Data Access Layer (Database)          |
+|  +-------------------------------------------+   |
+|  |    Database (MongoDB) |   |
+|  +-------------------------------------------+   |
+|  +-------------------------------------------+   |
+|  |    Image Storage (AWS S3)    |   |
+|  +-------------------------------------------+   |
++--------------------------------------------------+
+           |                                |
++----------v--------------------------------v------+
+|          External Services (Third-Party)         |
+|  +-------------------------------------------+   |
+|  |  Payment Gateway (Stripe and PayPal)         |   |
+|  +-------------------------------------------+   |
+|  |  SMS/Email Notification (SendGrid) |   |
+|  +-------------------------------------------+   |
++--------------------------------------------------+
+
+```
+## 4. Data Flow
+
+### User Interaction:
+- The client (web/mobile) sends a request to the **API Gateway**.
+- The **API Gateway** forwards the request to the corresponding service (e.g., User Service, Order Service, etc.).
+
+### Data Handling:
+- The **User Service** validates and processes user data, storing user information in the **Database**.
+- The **Restaurant Service** performs CRUD operations for restaurant data and links restaurant images.
+- The **Order Service** processes order requests, tracks status, and stores data in the **Database**.
+
+### External Integration:
+- The **Payment Gateway** handles payment processing.
+- The **Image Storage Service** handles the upload/retrieval of images (e.g., restaurant images or user profile pictures).
+- **Email/SMS Notifications** are sent to users about order updates.
+
+### Error Handling:
+- Errors are logged and handled by the **Error Handling Service**, which sends appropriate responses (e.g., 400 or 500 HTTP status codes) to the client.
+
+---
+
+## 5. Security Considerations
+
+### Authentication and Authorization:
+- Use **JWT** (JSON Web Tokens) for secure user authentication and role-based access control.
+- Implement **OAuth** or **OpenID Connect** for third-party authentication (if necessary).
+
+### Data Encryption:
+- All sensitive data such as passwords, payment information, and user personal details should be encrypted using **AES** or similar encryption algorithms.
+- Use **SSL/TLS** for encrypting communication between the client and the server.
+
+### Input Validation:
+- Proper input validation should be performed on all endpoints to prevent **SQL injection**, **XSS (Cross-site scripting)**, and **CSRF (Cross-Site Request Forgery)** attacks.
+
+---
+
+## 6. Scalability and Performance
+
+### Horizontal Scaling:
+- Use **load balancers** to distribute incoming requests across multiple application servers to ensure the system can scale efficiently as traffic increases.
+
+### Database Sharding:
+- If required, implement **database sharding** for large datasets to distribute load and improve performance.
+
+### Caching:
+- Implement **caching** mechanisms (e.g., **Redis**) for frequently accessed data like restaurant lists, to reduce database load and improve response times.
+
+
+# Restaurant Management System (RMS) - System Testing Policy
+
+## 1. Purpose and Scope
+
+The purpose of this system testing policy is to define the approach, requirements, and procedures for testing the **Restaurant Management System (RMS)** to ensure it meets the specified functional and non-functional requirements. This includes testing all implemented features such as:
+
+- Image handling
+- User management
+- Restaurant management
+- Order management
+- Search
+- Filtering
+- Error handling
+
+## 2. Testing Process Overview
+
+The system testing will follow a structured approach to validate the **functionality**, **usability**, **performance**, and **security** of the system. The testing process will include the following stages:
+
+### Test Planning
+- Preparation of detailed test plans and test cases.
+
+### Test Design
+- Creating test scripts based on the system's functional requirements.
+
+### Test Execution
+- Executing the test cases and verifying functionality.
+
+### Defect Reporting
+- Identifying, classifying, and reporting defects.
+
+### Test Closure
+- Concluding the testing process once all critical defects are resolved.
+
+## 3. Testing Requirements
+
+The system will be tested against the following requirements:
+
+### Image Handling:
+- Verify that images can be uploaded and retrieved.
+- Ensure that images are correctly linked to both users and restaurants.
+
+### User Management:
+- Test user creation, retrieval, and linking of images to the user.
+- Validate the accuracy and completeness of user data when retrieved.
+
+### Restaurant Management:
+- Verify the full CRUD functionality for restaurant creation, updating, and retrieval.
+- Ensure that restaurant details are correctly managed.
+- Validate that restaurant orders are correctly handled.
+
+### Order Management:
+- Verify that orders can be created successfully.
+- Ensure that order statuses are updated and tracked correctly.
+- Test different status transitions for orders.
+
+### Search and Filtering:
+- Ensure that restaurants can be searched by city and cuisine.
+- Validate the pagination and sorting mechanisms to ensure they work correctly.
+
+### Error Handling:
+- Verify proper handling of missing data and invalid inputs (e.g., incorrect user details or invalid order parameters).
+- Ensure proper error messages are returned for server issues.
+
+## 4. Test Levels
+
+System testing will include the following levels:
+
+### Unit Testing:
+- Ensuring individual components such as image upload, user creation, and order status transitions work in isolation.
+
+### Integration Testing:
+- Verifying that all components (image handling, user management, restaurant management, and order management) work together correctly.
+
+### System Testing:
+- Testing the system as a whole to ensure all functionalities work in conjunction as expected.
+
+### Acceptance Testing:
+- Ensuring that the system meets the business requirements and is ready for deployment.
+
+## 5. Test Types
+
+Different types of tests will be executed to validate the various aspects of the system:
+
+### Functional Testing:
+- Verify all functional requirements such as image upload, user creation, and order management.
+
+### Performance Testing:
+- Test the system’s response time, especially for search and filtering functionality, under various loads.
+
+### Security Testing:
+- Ensure the system protects user data and prevents unauthorized access.
+
+### Usability Testing:
+- Ensure that the user interface is intuitive and easy to navigate.
+
+### Regression Testing:
+- Verify that changes or new functionality don’t break existing features.
+
+### Smoke Testing:
+- Perform basic tests on critical paths such as user registration, restaurant management, and order placement.
+
+## 6. Test Environment
+
+Testing will be performed in a controlled environment that mimics the production system. This includes:
+
+### Servers and Hosting:
+- A replica of the production environment with the same database and services.
+
+### Software Requirements:
+- The appropriate software and frameworks (e.g., web server, database, browser) will be used to simulate user interactions.
+
+### Test Tools:
+- Testing tools for automated testing, bug tracking, and reporting will be used as needed (e.g., Selenium, Postman).
+
+# Detailed System Testing Plan
+
+The system testing plan for the Restaurant Management System (RMS) ensures that the system performs as expected across all components and layers. This plan includes testing of individual modules, integrations with third-party services, and overall system functionality.
+
+## 1. Testing Objectives
+
+The main objectives of the testing process are to:
+- Verify the functionality and performance of the system’s components.
+- Ensure the integration of third-party services (payment gateway, image storage, SMS/email notifications).
+- Test for security vulnerabilities.
+- Validate scalability and performance under varying loads.
+- Ensure proper error handling and edge case coverage.
+
+## 2. Test Levels
+
+The testing will be divided into different levels:
+1. **Unit Testing** – Individual components (functions, classes) will be tested for correctness.
+2. **Integration Testing** – Multiple components will be tested together to ensure they interact correctly.
+3. **System Testing** – The full RMS system will be tested to verify end-to-end functionality.
+4. **Acceptance Testing** – Ensure that the system meets the requirements as specified by stakeholders.
+5. **Performance Testing** – Test for performance under high load.
+6. **Security Testing** – Test the system for vulnerabilities, including encryption, data integrity, and access control.
+7. **Regression Testing** – Ensure that new code or changes have not affected existing functionality.
+
+## 3. Components to Be Tested
+
+### 3.1 Presentation Layer (User Interface)
+
+#### Web Interface Testing:
+- **Functionality**: Test all interactive components (buttons, forms, links, etc.) for proper behavior.
+- **Cross-browser Compatibility**: Test the user interface on different browsers (Chrome, Firefox, Safari, Edge).
+- **Responsiveness**: Ensure the layout adapts properly across different screen sizes and devices (mobile, tablet, desktop).
+- **Usability**: Validate that the user interface is intuitive and meets user requirements.
+
+
+### 3.2 Business Logic Layer (Application Layer)
+
+#### API Gateway Testing:
+- **Correctness**: Ensure that the API Gateway forwards requests to the correct service.
+- **Security**: Test API security using JWT authentication and role-based access control.
+- **Load Testing**: Simulate high numbers of API requests to ensure scalability and stability under load.
+
+#### Service Functionality Testing:
+- **User Service Testing**: Test for user registration, login, profile updates, and image handling.
+- **Restaurant Service Testing**: Test CRUD operations for restaurants (add, update, delete, retrieve), including image upload and retrieval.
+- **Order Service Testing**: Test order creation, status updates, and linking orders to users and restaurants.
+- **Search Service Testing**: Test for search queries with filters like city, cuisine, and restaurant name.
+- **Error Handling Service Testing**: Simulate various errors (e.g., invalid input, missing data) and verify that the system handles them appropriately.
+
+### 3.3 Data Access Layer (Persistence Layer)
+
+#### Database Testing:
+- **Data Integrity**: Verify that data is correctly stored and retrieved from MongoDB database.
+- **ORM Testing**: Ensure proper mapping between the database and application objects using TypeORM.
+- **Image Storage Testing**: Test image upload, retrieval, and deletion functionality using AWS S3.
+
+#### Data Validation:
+- **Input Validation**: Test that all inputs to the database are validated to prevent SQL injection, XSS, and other attacks.
+
+### 3.4 External Services Layer
+
+#### Third-Party Service Testing:
+
+##### Payment Gateway Testing:
+- Test transactions with Stripe and PayPal using both successful and failed payment scenarios.
+- Ensure that the system correctly handles payment confirmation, failure notifications, and payment retries.
+- Validate that sensitive payment data is securely handled and encrypted.
+
+##### Image Storage Testing:
+- Test image upload and retrieval from AWS S3, including proper handling of large image files.
+- Verify that the images are stored securely and can be accessed by users.
+
+##### Notification Service Testing:
+- Test SMS notifications using SendGrid and email notifications using SendGrid for various system events (e.g., order status updates, registration confirmation).
+- Ensure delivery success, and handle failures or timeouts gracefully.
+
+## 4. Security Testing
+
+#### Authentication and Authorization Testing:
+- Test the authentication mechanism (JWT) to ensure only authenticated users can access protected resources.
+- Test role-based access control to ensure that users have the appropriate permissions (e.g., customer, restaurant owner, admin).
+
+#### Encryption Testing:
+- Verify that sensitive data, such as passwords and payment information, is encrypted using strong encryption algorithms (AES, TLS).
+
+#### Vulnerability Scanning:
+- Perform automated security scans (using tools like OWASP ZAP, Burp Suite) to detect vulnerabilities like SQL injection, cross-site scripting (XSS), and Cross-Site Request Forgery (CSRF).
+
+## 5. Performance Testing
+
+#### Load Testing:
+- Use tools like Apache JMeter or LoadRunner to simulate high traffic and evaluate the system’s response time, throughput, and resource utilization.
+
+#### Stress Testing:
+- Test the system under extreme load conditions to determine its breaking point and how it handles resource exhaustion.
+
+#### Scalability Testing:
+- Evaluate horizontal scaling (using load balancers) and the system’s ability to handle increased traffic by distributing load across multiple servers.
+
+## 6. Error Handling Testing
+
+#### Test Case Scenarios:
+- Simulate common errors like invalid input, user not found, payment failure, and invalid order status.
+- Verify that the Error Handling Service sends appropriate HTTP status codes and error messages.
+
+## 7. Third-Party Service Testing
+
+### 7.1 Payment Gateway (Stripe and PayPal)
+- **Test Cases**:
+  - Validate payment flow, including successful and failed transactions.
+  - Ensure data encryption is used when transmitting payment information.
+  - Simulate scenarios where the payment gateway is down and ensure proper error handling.
+
+![Stripe](Stripe-Integration.png)
+![Paypal](Paypal-Integration.png)
+
+### 7.2 Image Storage (AWS S3)
+- **Test Cases**:
+  - Validate the upload and retrieval of images (e.g., restaurant images, user profile pictures).
+  - Test image resizing and compression functionality.
+  - Ensure correct error handling in case of failed uploads.
+
+![AWS S3](AWS-S3-Integration.png)
+
+### 7.3 Notification Service (SendGrid)
+- **Test Cases**:
+  - Verify that email notifications are triggered at the correct times (e.g., after order placement or status update).
+  - Validate the correctness of the notification content.
+  - Test error handling in case of delivery failures.
+
+![Send Grid](SendGrid-Integration.png)
+
+## 8. Regression Testing
+
+#### Regression Test Cases:
+- Re-run existing test cases after new features or fixes are added to ensure no old functionality is broken.
+
+## 9. Test Tools and Frameworks
+- **Unit Testing**: Jest, Mocha, or Jasmine for JavaScript unit testing.
+- **Integration Testing**: Supertest or Postman for API testing.
+- **Load Testing**: Apache JMeter, LoadRunner.
+- **Security Testing**: OWASP ZAP, Burp Suite.
+- **Performance Testing**: Locust, Apache JMeter.
+- **Automation**: Selenium or Cypress for UI testing.
+
+## 10. Test Execution and Reporting
+
+#### Test Execution:
+- Each level of testing will be executed in phases as per the development cycle, starting from unit testing to system testing and acceptance testing.
+
+#### Test Reporting:
+- Test results will be documented and reported with details on passed, failed, and skipped test cases. Bug tracking tools (e.g., Jira, Bugzilla) will be used for issue management.
